@@ -9,17 +9,31 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { connect } from 'react-redux';
+import {loginAction } from './actions/loginAction';
+import {registrationAction} from './actions/registrationAction';
+const mapStateToProps = state => ({
+  ...state
+ })
+
+ const mapDispatchToProps = dispatch => ({
+  loginAction: () => loginAction(),
+  registrationAction: () => registrationAction()
+ })
 function App() {
   return (
     <Router>
               <Switch>
-          <Route path="/home">
+          <Route exact path="/home">
             <Home />
           </Route>
-          <Route path="/register">
+          <Route exact path="/register">
             <Registration />
           </Route>
-          <Route path="/">
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <Route exact path="/">
             <Login />
           </Route>
         </Switch>

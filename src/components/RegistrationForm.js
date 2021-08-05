@@ -2,8 +2,11 @@ import React , { useState }from 'react'
 import { Link } from 'react-router-dom';
 import useForm from "./useForm";
 import validate from './RegistrationFormValidation';
-
-export default function RegistrationForm() {
+import { connect } from 'react-redux';
+import {registrationAction} from '../actions/registrationAction'
+import { useDispatch, useSelector } from "react-redux";
+const  RegistrationForm = () => {
+  const dispatch = useDispatch();
   const {
     values,
     errors,
@@ -12,12 +15,17 @@ export default function RegistrationForm() {
     handleSubmit,
   } = useForm(validate);
 
-
+const submit = async ()=> {
+  console.log(values)
+  dispatch(registrationAction(values))
+}
+  // const state = useSelector(state => state.register.length)
     return (
         <div className='container mt-5'>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={submit}>
                 <h3>Register</h3>
                 <br />
+
                 {!alertMessage.hidden ? <div className="alert alert-primary" role="alert">
                   {alertMessage.message}
                 </div> : <br />}
@@ -57,7 +65,12 @@ export default function RegistrationForm() {
                 <p className="forgot-password text-right">
                     Already registered? <Link to='/login'>Login Here</Link>
                 </p>
+                {/* <button
+            onClick={submit}
+        >Redux Register</button> */}
             </form> 
         </div>
     )
 }
+
+export default connect()(RegistrationForm);

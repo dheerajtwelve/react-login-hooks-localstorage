@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import LoginuseForm from "./LoginuseForm";
 import validate from './LoginFormValidation';
-
+import { useDispatch, useSelector} from "react-redux";
+import { loginAction} from '../actions/loginAction';
+import { useHistory} from 'react-router-dom';
 export default function LoginForm() {
-    const [emaillog, setEmaillog] = useState(" ");
-    const [passwordlog, setPasswordlog] = useState(" ");
-    const [flag, setFlag] = useState(false);
-    const [home, setHome] = useState(true);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
     const {
         values,
         errors,
@@ -15,10 +16,14 @@ export default function LoginForm() {
         handleChange,
         handleSubmit,
       } = LoginuseForm(validate);
-    function handleLogin(e) {}
+      const submit = async ()=> {
+        console.log(values)
+        dispatch(loginAction(values))
+        history.push('/home')
+      }
     return (
         <div className="container mt-5">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={submit}>
             <h3>Log In</h3>
             <br />
             {!alertMessage.hidden ? <div className="alert alert-primary" role="alert">
@@ -44,6 +49,9 @@ export default function LoginForm() {
             <p className="forgot-password text-right">
                     Dont have an account? <Link to='/register'>Register Here</Link>
                 </p>
+                {/* <button
+            onClick={submit}
+        >Redux Login</button> */}
         </form>
     </div>
     )
